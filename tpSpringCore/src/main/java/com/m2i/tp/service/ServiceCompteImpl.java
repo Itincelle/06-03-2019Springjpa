@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.m2i.tp.dao.DaoCompte;
 import com.m2i.tp.entity.Compte;
 
 @Service //@Service h√©rite de @Component 
-@Transactional
+@Transactional //  par defaut esgale a Áa @Transactional(propagation=Propagation.REQUIRED)  voir page 73 pdf
 public class ServiceCompteImpl implements ServiceCompte {
 	
 	@Autowired
@@ -34,8 +35,14 @@ public class ServiceCompteImpl implements ServiceCompte {
 
 	@Override
 	public void virement(double montant, long numCptDeb, long numCptCred) {
-		// TODO Auto-generated method stub
+		Compte CptDeb = daoCompte.findById(numCptDeb);
+		CptDeb.setSolde(CptDeb.getSolde()-montant);
+		daoCompte.save(CptDeb); // facultatif pour mise a jour sur B.D facultatif psk @transactional est ici en haut
 
+		
+		Compte CptCred = daoCompte.findById(numCptCred);
+		CptCred.setSolde(CptCred.getSolde()+montant);
+		daoCompte.save(CptCred); //
 	}
 
 	@Override
