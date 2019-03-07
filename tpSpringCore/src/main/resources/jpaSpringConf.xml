@@ -21,7 +21,7 @@ http://www.springframework.org/schema/context/spring-context.xsd" >
 <!-- & est codé &amp; en xml -->
  <!--  il a rajouté ce bloc pour dire va voir le fichier properties..et  il a supprimé la configuration en bas et il la remplacé par des {jdbc.jksdcjk} -->
 <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-<property name="location" value="database.properties" />
+<property name="location" value="classpath:/database.properties" />   <!-- c'est bien de mettre classpath comme ça , pour  que ça marche partt apres en collat les morceaux -->
 </bean>
 <bean id="dataSource"
 class="org.springframework.jdbc.datasource.DriverManagerDataSource"/>

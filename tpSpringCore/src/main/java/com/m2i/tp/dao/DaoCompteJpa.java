@@ -34,8 +34,8 @@ public class DaoCompteJpa implements DaoCompte {
 
 	@Override
 	public List<Compte> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return entityManager.createQuery("SELECT c FROM Compte c", Compte.class)
+				.getResultList();
 	}
 
 	@Override
