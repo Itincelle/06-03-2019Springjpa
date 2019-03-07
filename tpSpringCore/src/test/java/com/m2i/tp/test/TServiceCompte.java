@@ -15,11 +15,11 @@ import com.m2i.tp.service.ServiceCompte;
 //il faut spring-test dans pom.xml
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"/mySpringConf.xml"})
-public class TestServiceCompte {
+public class TServiceCompte {
 	
-	private Logger logger = LoggerFactory.getLogger(TestServiceCompte.class);
+	private Logger logger = LoggerFactory.getLogger(TServiceCompte.class);
 
-	@Autowired
+	@Autowired             //le autowried est par defaut
 	private ServiceCompte serviceCompte; //à tester
 	
 	@Test
@@ -38,6 +38,19 @@ public class TestServiceCompte {
 	
 	@Test
 	public void testBonVirement() {
-		//...
+		Compte cA = new Compte(null,"compte A",30.0);
+		serviceCompte.sauvegarder(cA);
+		Compte cB = new Compte(null,"compte A",80.0);
+		serviceCompte.sauvegarder(cB);
+		
+		Long numCptA = cA.getNumero();
+		Long numCptB = cB.getNumero();
+		
+		serviceCompte.virement(25, numCptB, numCptA);
+		
+		Compte CptApresVirement= serviceCompte.rechercherCompteParNumero(numCptA);
+		Compte CptBpresVirement= serviceCompte.rechercherCompteParNumero(numCptB);
+		
+		Assert.assertEquals(55.0, CptApresVirement.getSolde(),0.001);
 	}
 }
